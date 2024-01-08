@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Unit</title>
+</head>
+<body>
+    <h1>Add Unit</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Unit</button>
+        {% comment %} <a href="{% f'/realestate_app/property_pro/{property_id}/' %}" class="profile-button">View Profile</a> {% endcomment %}
+        {% comment %} return redirect(f'/realestate_app/property_pro/{property_id}/') {% endcomment %}
+    </form>
+</body>
+</html>

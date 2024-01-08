@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Unit</title>
+</head>
+<body>
+    <h1>Edit Unit</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Unit</button>
+    </form>
+</body>
+</html>

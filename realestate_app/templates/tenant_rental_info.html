@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tenant Rental Info</title>
+</head>
+<body>
+    <h1>Tenant Rental Information</h1>
+    <h2>{{ tenant.name }}</h2>
+    <ul>
+        {% for info in rental_info %}
+            <li>Unit: {{ info.unit }}</li>
+            <li>Agreement End Date: {{ info.agreement_end_date }}</li>
+            <li>Monthly Rent Date: {{ info.monthly_rent_date }}</li>
+            <!-- Include more rental info fields here -->
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Property Profile</title>
+</head>
+<body>
+    <h1>Property Profile</h1>
+    <h2>{{ property.name }}</h2>
+    <p>Address: {{ property.address }}</p>
+    <p>Location: {{ property.location }}</p>
+
+    <h2>Units:</h2>
+    <ul>
+        {% for unit in units %}
+            <li>Type: {{ unit.get_type_display }}</li>
+            <li>Rent Cost: {{ unit.rent_cost }}</li>
+            <!-- Include more unit details here -->
+        {% endfor %}
+    </ul>
+</body>
+</html>

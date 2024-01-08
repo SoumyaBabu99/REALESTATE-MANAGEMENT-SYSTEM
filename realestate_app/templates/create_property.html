@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Property</title>
+</head>
+<body>
+    <h1>Create Property</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+    {% comment %} <h1>Add Unit</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }} {% endcomment %}
+        <button type="submit">Create Property</button>
+
+        {% comment %} <a href="{% url 'add_unit' %}?property_id={{ property.id }}">Add Units</a> {% endcomment %}
+    </form>
+</body>
+</html>

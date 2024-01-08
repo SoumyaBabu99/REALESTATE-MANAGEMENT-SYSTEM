@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Unit</title>
+</head>
+<body>
+    <h1>Delete Unit</h1>
+    <p>Are you sure you want to delete this unit?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm Delete</button>
+    </form>
+</body>
+</html>
