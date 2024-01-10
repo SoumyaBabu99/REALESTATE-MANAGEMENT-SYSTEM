@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Properties</title>
+    <!-- Include Bootstrap CSS link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>All Properties</h1>
+
+        <div class="row">
+            {% for property in properties %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ property.name }}</h5>
+                            <p class="card-text">
+                                <strong>Address:</strong> {{ property.address }}<br>
+                                <strong>Location:</strong> {{ property.location }}<br>
+                                <strong>Features:</strong> {{ property.features }}<br>
+                            </p>
+
+                            <strong>Units:</strong>
+                            <ul class="list-group">
+                                {% for unit in property.unit_set.all %}
+                                    <li class="list-group-item">
+                                        <strong>Rent Cost:</strong> {{ unit.rent_cost }}<br>
+                                        <strong>Type:</strong> {{ unit.get_type_display }}<br>
+                                        <!-- You can display other unit details here -->
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        
+                            <div class="mt-3">
+                                <button class="btn btn-primary mr-2">View</button>
+                                
+                                  <button class="btn btn-success request-button" data-property-id="{{ property.id }}">Request</button>
+                          
+                            </div>
+                   
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS link and jQuery (for AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $(".request-button").on("click", function() {
+                var propertyId = $(this).data("property-id");
+                var csrfToken = "{{ csrf_token }}";  // Get CSRF token from Django template tag
+    
+                // AJAX POST request to send the request to the backend
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'send_request_to_admin'  %}",  // Change this URL to the appropriate endpoint
+                    headers: { "X-CSRFToken": csrfToken },  // Include CSRF token in headers
+                    data: {
+                        'property_id': propertyId,
+                        'csrfmiddlewaretoken': csrfToken  // Include CSRF token in data
+                    },
+                    success: function(response) {
+                        // Handle success response if needed
+                        console.log("Request sent successfully!");
+    
+                        // Show a popup message or alert
+                        alert("Request sent successfully!"); // You can use a modal or customized alert here
+                    },
+                    error: function(error) {
+                        // Handle error response if needed
+                        console.error("Error sending request:", error);
+                    }
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

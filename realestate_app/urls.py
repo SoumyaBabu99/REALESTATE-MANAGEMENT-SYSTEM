@@ -21,6 +21,8 @@ urlpatterns = [
     path('login-tenant/', views.TenentLoginView.as_view(), name='login-tenant'),
     
     path('tenant/<int:tenant_id>/', views.tenant_profile_view, name='tenant_profile'),
-    path('tenant/<int:tenant_id>/rental/', views.tenant_rental_info_view, name='tenant_rental_info')
+    path('tenant/<int:tenant_id>/rental/', views.tenant_rental_info_view, name='tenant_rental_info'),
+    path('view-all-properties/', views.view_all_properties, name='view_all_properties'),
+      path('send-request/', views.send_request_to_admin, name='send_request_to_admin'),
     # Other URL patterns
 ]

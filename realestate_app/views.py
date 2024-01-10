@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -20,6 +21,8 @@ from django .views import generic
 from .models import *
 from django.views import View
 from .forms import *
+from django.shortcuts import get_object_or_404
+from .models import Property, TenantRequest
 
 
 # def register_admin(request):
@@ -208,7 +211,7 @@ class TenentLoginView(generic.View):
 
             if tenant and check_password(password, tenant.password):
                 request.session['u_id'] = tenant.id
-                return HttpResponse('login success')# Adjust this to your actual URL name
+                return redirect('view_all_properties')# Adjust this to your actual URL name
             else:
                 return HttpResponse('Login failed: Incorrect username or password.')
 
@@ -229,3 +232,41 @@ def tenant_rental_info_view(request, tenant_id):
         'rental_info': rental_info
     }
     return render(request, 'tenant_rental_info.html', context)
+
+def view_all_properties(request):
+    properties = Property.objects.all()
+    context = {
+        'properties': properties,
+    }
+    return render(request, 'all_properties.html', context)
+
+
+
+def send_request_to_admin(request):
+    if request.method == 'POST':
+        property_id = request.POST.get('property_id')
+        
+        # Get the property based on the property_id sent from the frontend
+        property_instance = get_object_or_404(Property, pk=property_id)
+        print(property_instance)
+        if isinstance(request.user, Tenant):
+            tenant_instance = request.user
+
+            # Create a TenantRequest object for the authenticated Tenant
+            new_request = TenantRequest(property=property_instance, tenant=tenant_instance)
+            new_request.save()
+
+            # Return a JSON response to indicate the request was successful
+            return JsonResponse({'status': 'success'})
+        else:
+            # If the user is not authenticated or not a Tenant, return an error response
+            return JsonResponse({'status': 'error', 'message': 'Invalid user or authentication'})
+
+            # Return a JSON response to indicate the request was successful
+        # return JsonResponse({'status': 'success'})
+        # else:
+        #     # If the user is not authenticated, return an error response
+        #     return JsonResponse({'status': 'error', 'message': 'User not authenticated'})
+    else:
+        # Return an error response if the request method is not POST
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
